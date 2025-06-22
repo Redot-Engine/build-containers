@@ -46,7 +46,7 @@ podman_build() {
   # You can add --no-cache as an option to podman_build below to rebuild all containers from scratch.
   "$podman" build \
     --build-arg img_version=${img_version} \
-    -v "${files_root}":/root/files:z \
+    -v "${files_root}":/root/files \
     -t godot-"$1:${img_version}" \
     -f Dockerfile."$1" . \
     2>&1 | tee logs/"$1".log
@@ -72,7 +72,7 @@ if [ ! -e "${files_root}"/MacOSX${OSX_SDK}.sdk.tar.xz ] || [ ! -e "${files_root}
   echo "Building OSX and iOS SDK packages. This will take a while"
   podman_build xcode
   "$podman" run -it --rm \
-    -v "${files_root}":/root/files:z \
+    -v "${files_root}":/root/files \
     -e XCODE_SDKV="${XCODE_SDK}" \
     -e OSX_SDKV="${OSX_SDK}" \
     -e IOS_SDKV="${IOS_SDK}" \
